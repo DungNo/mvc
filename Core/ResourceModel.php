@@ -25,38 +25,29 @@ class ResourceModel implements ResourceModelInterface
         $arrNewModel = [];
         $arrUpdateModel = [];
         $insert_key = [];
-        if ($model->getId() === null) {
-            foreach ($properties as $key => $value) {
-                $insert_key[] = $key;
-                array_push($arrNewModel, ':' . $key);
-            }
 
+        foreach ($properties as $key => $value) {
+            $insert_key[] = $key;
+            array_push($arrNewModel, ':' . $key);
+            array_push($arrUpdateModel, $key . ' = :' . $kye);
+        }
+        if ($model->getId() === null) {            
             $strKey = implode(', ', $insert_key);
-
-            $strArrNew = implode(', ', $arrNewModel);
-     
-            $sql_insert = "INSERT INTO $this->table ({$strKey}) VALUE ({$strArrNew})";
-
-            $req_new = Database::getBdd()->prepare($sql_insert);
-
-            return $req_new->execute($properties);
+            $strArrNew = implode(', ', $arrNewModel);     
+            $sql = "INSERT INTO $this->table ({$strKey}) VALUE ({$strArrNew})";
 
         } else {
-            foreach ($properties as $k => $item) {
-                array_push($arrUpdateModel, $k . ' = :' . $k);
-            }
-            //update
             $id = $model->getId();
             $strUpdate = implode(', ', $arrUpdateModel);
-            $sql_update = "UPDATE {$this->table} SET $strUpdate WHERE id =" . $id;
-            $req_update = Database::getBdd()->prepare($sql_update);
-            return $req_update->execute($properties);
+            $sql = "UPDATE {$this->table} SET $strUpdate WHERE $this->id =" . $id;
         }
+        $req = Database::getBdd()->prepare($sql);
+        return $req_new->execute($properties);
     }
     public function delete($model)
     {
         $id = $model->getId();
-        $sql = "DELETE FROM $this->table WHERE id =" . $id;
+        $sql = "DELETE FROM $this->table WHERE $this->id =" . $id;
         $req = Database::getBdd()->prepare($sql);
         return $req->execute();
     }
@@ -69,9 +60,10 @@ class ResourceModel implements ResourceModelInterface
     }
     public function find($id)
     {
-        $sql = "SELECT * FROM $this->table WHERE id =" . $id;
+        $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute();
+        $req->execute([$this->id => $id]); 
+        return $req->fetchObject();
     }
 }
 
