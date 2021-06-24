@@ -29,7 +29,8 @@ class ResourceModel implements ResourceModelInterface
         foreach ($properties as $key => $value) {
             $insert_key[] = $key;
             array_push($arrNewModel, ':' . $key);
-            array_push($arrUpdateModel, $key . ' = :' . $kye);
+            array_push($arrUpdateModel, $key . ' = :' . $key);
+
         }
         if ($model->getId() === null) {            
             $strKey = implode(', ', $insert_key);
@@ -41,8 +42,16 @@ class ResourceModel implements ResourceModelInterface
             $strUpdate = implode(', ', $arrUpdateModel);
             $sql = "UPDATE {$this->table} SET $strUpdate WHERE $this->id =" . $id;
         }
-        $req = Database::getBdd()->prepare($sql);
-        return $req_new->execute($properties);
+
+        try {
+            $req = Database::getBdd()->prepare($sql);
+            return $req->execute($properties);
+
+        } catch (\Exception  $error) {
+            throw $error;
+            
+        }
+        
     }
     public function delete($model)
     {
@@ -56,14 +65,14 @@ class ResourceModel implements ResourceModelInterface
         $sql = "SELECT * FROM $this->table";
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
-        return $req->fetchAll(PDO::FETCH_OBJ);
+        return $req->fetchAll(PDO::FETCH_CLASS, get_class($this->model));
     }
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$this->id => $id]); 
-        return $req->fetchObject();
+        return $req->fetchObject(get_class($this->model));
     }
 }
 

@@ -14,11 +14,11 @@
         foreach ($tasks as $task)
         {
             echo '<tr>';
-            echo "<td>" . $task->id . "</td>";
-            echo "<td>" . $task->title . "</td>";
-            echo "<td>" . $task->description . "</td>";
-            echo "<td class='text-center'><a class='btn btn-info btn-xs' href='/mvc/tasks/edit/" . $task->id 
-            . "' ><span class='glyphicon glyphicon-edit'></span> Edit</a> <a href='/mvc/tasks/delete/" . $task->id 
+            echo "<td>" . $task->getId() . "</td>";
+            echo "<td>" . $task->getTitle() . "</td>";
+            echo "<td>" . $task->getDescription() . "</td>";
+            echo "<td class='text-center'><a class='btn btn-info btn-xs' href='/mvc/tasks/edit/" . $task->getId() 
+            . "' ><span class='glyphicon glyphicon-edit'></span> Edit</a> <a href='/mvc/tasks/delete/" . $task->getId() 
             . "' class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-remove'></span> Del</a></td>";
             echo "</tr>";
         }
