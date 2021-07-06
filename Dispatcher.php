@@ -12,8 +12,8 @@ class Dispatcher
 
     public function dispatch()
     {
-        $this->request = new Request();
-
+        $this->request = new Request();        
+        
         Router::parse($this->request->url, $this->request);
         
         $controller = $this->loadController();
@@ -25,7 +25,7 @@ class Dispatcher
     {
         $name = $this->request->controller . "Controller";
 
-        $file ='MVC\\Controllers\\' . $name;
+        $file ='MVC\\Controllers\\' . $name;//task
 
         $controller = new $file();
         

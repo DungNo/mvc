@@ -9,7 +9,7 @@ class SinhvienResourceModel extends ResourceModel
 	{
 		public function __construct()
 		{
-			parent::_init('sinhvien', 'id', new SinhvienModel);
+			parent::_init('sinhvien', 'id', new SinhvienModel);//tra ve mot obj
 		}
 
 	}

@@ -9,18 +9,18 @@ namespace MVC\Core;
 
         function set($d)
         {
-            $this->vars = array_merge($this->vars, $d);
+            $this->vars = array_merge($this->vars, $d);// gop mang
         }
 
         function render($filename)
         {
-            extract($this->vars);
-            ob_start();
-            $stringTask = str_replace('Controller', '', get_class($this));
-            $dem = strrpos($stringTask, '\\');
-            $nameTask = substr($stringTask, $dem + 1);
-            require(ROOT . "Views/" . $nameTask . '/' . $filename . '.php');
-            $content_for_layout = ob_get_clean();
+            extract($this->vars);// thuc hien chuyen doi array thành variable
+            ob_start(); // khi user request thi du lieu luu vao nho dem dau ra
+            $stringNameModel = str_replace('Controller', '', get_class($this));// MVC\s\Sinhvien, get_class: tra ve ten lop cua obj
+            $dem = strrpos($stringNameModel, '\\');
+            $nameModel= substr($stringNameModel, $dem + 1);
+            require(ROOT . "Views/" . $nameModel . '/' . $filename . '.php');// gop cac file php (chen toan bo noi dung cua file import vào file hien tai) 
+            $content_for_layout = ob_get_clean();// lay du lieu bo nho dem ra xu ly roi xoa luon trong bo nho tam
 
             if ($this->layout == false)
             {

@@ -29,7 +29,7 @@ class SinhvienController extends Controller
 
             if ($sinhvienRepository->add($sinhvienModel))
             {
-                header("Location: " . WEBROOT . "Sinhvien/index");
+                header("Location: " . WEBROOT . "Sinhvien/index");//WEBROOT:/mvc/               
             }
         }
 
@@ -41,8 +41,8 @@ class SinhvienController extends Controller
         
         
         $sinhvienRepository= new SinhvienRepository();
-        $d["sinhvien"] = $sinhvienRepository->get($id);        
-        if (isset($_POST["name"]))
+        $d["sinhvien"] = $sinhvienRepository->get($id);    
+        if (isset($_POST["name"]))// kiem tra du lieu gui len sever ton tai hay chua, ton tai tra ve true
         {
             
             $sinhvienModel = new SinhvienModel();

@@ -10,8 +10,8 @@ class TasksController extends Controller
 {
     function index()
     {
-        $task = new TaskRepository();
-        $d['tasks'] = $task->getAll();
+        $taskRepository = new TaskRepository();
+        $d['tasks'] = $taskRepository->getAll();
         $this->set($d);
         $this->render("index");
     }
@@ -19,12 +19,12 @@ class TasksController extends Controller
     function create()
     {
         if (isset($_POST["title"])) {
-            $task = new TaskRepository();
-            $task1 = new TaskModel();
-            $task1->setTitle($_POST["title"]);
-            $task1->setDescription($_POST["description"]);
+            $taskRepository = new TaskRepository();
+            $taskModel = new TaskModel();
+            $taskModel->setTitle($_POST["title"]);
+            $taskModel->setDescription($_POST["description"]);
 
-            if ($task->add($task1)) {
+            if ($taskRepository->add($taskModel)) {
                 header("Location: " . WEBROOT . "tasks/index");
             }
         }
@@ -33,18 +33,18 @@ class TasksController extends Controller
 
     function edit($id)
     {
-        $task = new TaskRepository();
+        $taskRepository = new TaskRepository();
 
-        $d["task"] = $task->get($id);
+        $d["task"] = $taskRepository->get($id);
 
         if (isset($_POST["title"]))
         {           
-            $task1 = new TaskModel();
+            $taskModel = new TaskModel();
 
-            $task1->setId($id);
-            $task1->setTitle($_POST["title"]);
-            $task1->setDescription($_POST["description"]);
-            if ($task->edit($task1))
+            $taskModel->setId($id);
+            $taskModel->setTitle($_POST["title"]);
+            $taskModel->setDescription($_POST["description"]);
+            if ($taskRepository->edit($taskModel))
             {
                 header("Location: " . WEBROOT . "tasks/index");
             }
@@ -55,10 +55,10 @@ class TasksController extends Controller
 
     function delete($model)
     {
-        $task = new TaskRepository();
-        $task1 = new TaskModel();
-        $task1->setId($model);
-        if ($task->delete($task1))
+        $taskRepository = new TaskRepository();
+        $taskModel = new TaskModel();
+        $taskModel->setId($model);
+        if ($taskRepository->delete($taskModel))
         {
             header("Location: " . WEBROOT . "tasks/index");
         }

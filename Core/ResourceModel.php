@@ -4,7 +4,6 @@ namespace MVC\Core;
 
 use MVC\Core\ResourceModelInterface;
 use MVC\Config\Database;
-use MVC\Models\TaskModel;
 use PDO;
 
 class ResourceModel implements ResourceModelInterface
@@ -33,7 +32,7 @@ class ResourceModel implements ResourceModelInterface
 
         }
         if ($model->getId() === null) {            
-            $strKey = implode(', ', $insert_key);
+            $strKey = implode(', ', $insert_key);//implode: noi ky tu
             $strArrNew = implode(', ', $arrNewModel);     
             $sql = "INSERT INTO $this->table ({$strKey}) VALUE ({$strArrNew})";
 
@@ -62,17 +61,17 @@ class ResourceModel implements ResourceModelInterface
     }
     public function showAll()
     {
-        $sql = "SELECT * FROM $this->table";
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetchAll(PDO::FETCH_CLASS, get_class($this->model));
+        $sql = "SELECT * FROM $this->table";//sql:string
+        $req = Database::getBdd()->prepare($sql);//prepare: chuan bi cau lenh sql de thuc thi
+        $req->execute();//excute: thuc thi cau lenh, req:obj
+        return $req->fetchAll(PDO::FETCH_CLASS, get_class($this->model));//tra ve mang cac obj
     }
     public function find($id)
     {
-        $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;
+        $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;//truyxuat den thuoc thinh cua doi tuong
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$this->id => $id]); 
-        return $req->fetchObject(get_class($this->model));
+        return $req->fetchObject(get_class($this->model));// tra ve mot obj
     }
 }
 

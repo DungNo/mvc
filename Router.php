@@ -2,13 +2,14 @@
 
 namespace MVC;
 
+use MVC\Request;
+
 class Router
 {
 
-    static public function parse($url, $request)
+    static public function parse(string $url, Request $request)
     {
         $url = trim($url);
-
         if ($url == "/mvc/")
         {
             $request->controller = "tasks";

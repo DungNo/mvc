@@ -10,11 +10,11 @@ class SinhvienRepository
 
     public function __construct()
     {
-        $this->data_model = new SinhvienResourceModel();
+        $this->data_model = new SinhvienResourceModel();// khoi tao lop SVRM 
     }
     public function add($model)
     {
-        return $this->data_model->save($model);
+        return $this->data_model->save($model);// truy xuat den thuoc tinh data_model va goi phương thuc save
     }
     public function edit($model)
     {
