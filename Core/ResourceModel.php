@@ -68,7 +68,7 @@ class ResourceModel implements ResourceModelInterface
     }
     public function find($id)
     {
-        $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;//truyxuat den thuoc thinh cua doi tuong
+        $sql = "SELECT * FROM $this->table WHERE $this->id =" . $id;//truy xuat den thuoc tinh cua doi tuong
         $req = Database::getBdd()->prepare($sql);
         $req->execute([$this->id => $id]); 
         return $req->fetchObject(get_class($this->model));// tra ve mot obj
